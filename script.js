@@ -13,6 +13,7 @@ Calculate (on pressing the = button)
 function Calculator() {
 	var self = this;
 	var math_data = [""];
+	var math_history = [];
 
 	self.init = function(){
 		$(document).ready(function(){
@@ -26,7 +27,12 @@ function Calculator() {
 			console.log(math_data);
 		});
 		$(".operators").on("click",function(){
-			self.handlers.handleOperators($(this));
+			if (math_data[0] === "" && Boolean(math_history[0])) {
+				console.log("repeat operation: operater changed");
+				self.repeatSolution();
+			} else {
+				self.handlers.handleOperators($(this));
+			}
 			console.log(math_data);
 		});
 		$("#AC_key").on("click",function(){
@@ -42,14 +48,20 @@ function Calculator() {
 			console.log(math_data);
 		});
 		$("#equal_key").on("click",function(){
-			//Equal key operates on its own this.property
-			self.handlers.handleEqual();
+			// If display is not cleared, equal repeats solution
+			if (math_data[0] === "" && Boolean(math_history[0])) {
+				console.log("repeat solution equal clicked");
+				self.repeatSolution();
+			} else {
+				self.handlers.handleEqual();
+			}
 			console.log(math_data);
 		});
 	};
 
 	//
 	self.handlers = {
+		// Handles key number inputs
 		handleInputNumbers: function(el){
 			// Clears input screen after a solution is completed
 			if (math_data[0] === "") {
@@ -62,6 +74,7 @@ function Calculator() {
 			// Adds latest key to math expression
 			math_data[math_data.length-1] += keyValue;
 		},
+		// Handles operator key inputs
 		handleOperators: function(el){
 			// Catches errors for changing operators
 			if(math_data[math_data.length-1] === ""){
@@ -77,11 +90,14 @@ function Calculator() {
 				math_data[math_data.length] = "";
 			}
 		},
+		// Handles AC key input
 		handleAC: function(){
 			// Clears everything!
 			math_data = [""];
+			math_history = [];
 			$("#display_total").text("");
 		},
+		// Handles period key input
 		handlePeriod: function(){
 			var lastNumber = math_data[math_data.length-1];
 			var splitLastNumber = lastNumber.split("");
@@ -92,7 +108,13 @@ function Calculator() {
 				self.displayKeys();
 			}
 		},
+		// Handle delete key input
 		handleDelete: function() {
+			if (math_data.length === 1){
+				math_data = [""];
+				self.displayKeys();
+				return;
+			}
 			var lastDigit = math_data[math_data.length-1];
 			while ( lastDigit === "" ){
 				math_data.pop();
@@ -100,53 +122,34 @@ function Calculator() {
 			math_data.pop();
 			self.displayKeys();
 		},
+		// Handles majority of equal key input
 		handleEqual: function(){
 			var total = self.solveSolution(math_data);
-			$("#display_total").text("");
 			// Potential error caught: Infinity
 			if (total === Infinity){
 				$("#display_total").text("Error");
 				math_data = [""];
 			} else {
-					// Accounts for errors made with only one entry in array:
+					// Accounts for errors made with only one entry in array:`123`
 					if(math_data.length === 1){
 						// Potential error caught: Missing operands
 						if(math_data[0] === ""){
-							total = parseFloat($("#display_total").text());
+							total = "";
 							console.log("no other input, just equals");
 							self.displayNumbers(total);
 							// Potential error caught: Missing operation
 						} else {
 							console.log("equal pressed after 1 number only");
-							self.displayNumbers(total);
+							return;
 						}
-					// 	// Accounts for errors made under three or less entries:
-					// } else if (math_data.length === 3){
-					// 			// Repeats operations after multiple equals
-					// 			if(total){
-					// 				self.displayNumbers(total);
-					// 				var lastOperation = math_data.slice(math_data.length-2);
-					// 				math_data = math_data.concat(lastOperation);
-					// 				total = self.solveSolution(math_data);
-					// 				$("#display_total").text("");
-					// 				self.displayNumbers(total);
-					// 				math_data = [""];
-					// 			} else if (isNaN(total)){
-					// 				var tempNum = math_data[0];
-					// 				var tempOp = math_data[1];
-					// 				var tempExp = tempOp.concat(tempNum);
-					// 				console.log(tempExp);
-					// 				self.solveSolution(total);
-					// 				self.displayNumbers(total);
-					// 				console.log("math length 3 clean, no repeats");
-					// 			}
-						// Array over four - branch reached if no other errors
 					} else {
 							// Solves the problem of additional operators and ""
 							if(math_data[math_data.length-1] == ""){
 								math_data.pop();
 								math_data.pop();
 							}
+							$("#display_total").text("");
+							math_history = math_history.concat(math_data);
 							total = self.solveSolution(math_data);
 							self.displayNumbers(total);
 							math_data = [""];
@@ -156,7 +159,7 @@ function Calculator() {
 		}
 	};
 
-	// Engine/logic to solve expression
+	// Logic engine for math evaluation
 	self.solveSolution = function(math_data){
 		// total is the accumulator for the math_data expression
 		var total = parseFloat(math_data[0]);
@@ -169,12 +172,14 @@ function Calculator() {
 					total = total / parseFloat(math_data[i+1]);
 					break;
 				case "+":
+					// Catches first iteration of num + operator
 					if(math_data[math_data.length-1] === "") {
 						math_data[math_data.length-1] = math_data[0];
 						total = total + parseFloat(math_data[i+1]);
 					} else {
 						total = total + parseFloat(math_data[i+1]);
-					}
+						}
+					// }
 					break;
 				case "-":
 					total = total - parseFloat(math_data[i+1]);
@@ -183,6 +188,19 @@ function Calculator() {
 		};
 			return total;
 	};
+	// Math evaluation repeats from math_history if calculator display !clear
+	self.repeatSolution = function(){
+		math_history = math_history.concat(math_data);
+		console.log("math history: ", math_history);
+		var current_total = parseFloat($("#display_total").text());
+		math_history[0] = current_total;
+		math_history[math_history.length-1] = math_data[math_data.length-1];
+		console.log("current total:",current_total);
+		console.log("math history:",math_history);
+		console.log("math total",math_data);
+		total = self.solveSolution(math_history);
+		$("#display_total").text(total);
+	}
 
 	// View - updates the calculator display
 	self.displayNumbers = function(value){
@@ -193,18 +211,17 @@ function Calculator() {
 		// Clear display for new value
 		$display.text(currentValue);
 	};
-	// Seperate view display for non-number inputs: i.e. periods,
+
+	// View - updates the calculator display for non-number inputs: i.e. periods,
 	self.displayKeys = function(){
 		var $display = $("#display_total");
 		var new_display_input = math_data.filter(function(el){
 			return el !== ",";
 		})
 		$display.text(new_display_input.join(""));
-		// Grabs the current display and attaches next value to it; i.e. 5 -> 54 -> 546
-		// Clear display for new value
 	}
 
-	// Calls the constructor, sets up: handlers on document ready
+	// Calls the constructor & sets up handlers on document ready
 	self.init();
 }
 
