@@ -2,8 +2,9 @@
 <html>
 <head>
 	<title>Calculator</title>
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
-	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  	integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+  	crossorigin="anonymous"></script>
 	<script type="text/javascript" src="script.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -11,43 +12,42 @@
 	<div id="calculator">
 		<div id="upper">
 			<div class="display_row">
-				<div id="total"></div>
-				<div id="numStorage">
-					<div class="delete_keys AC_key"></div>
-					<div class="delete_keys"></div>
+				<div id="total">
+					<div id="display_total"></div>
 				</div>
 			</div>
 		</div>
 		<div id="numpad">
 			<div class="row">
-				<div class="keys">7</div>
-				<div class="keys">8</div>
-				<div class="keys">9</div>
+				<div id="seven_key" class="keys num_keys">7</div>
+				<div id="eight_key" class="keys num_keys">8</div>
+				<div id="nine_key" class="keys num_keys">9</div>
 			</div>
 			<div class="row">
-				<div class="keys">4</div>
-				<div class="keys">5</div>
-				<div class="keys">6</div>
+				<div id="four_key" class="keys num_keys">4</div>
+				<div id="five_key" class="keys num_keys">5</div>
+				<div id="six_key" class="keys num_keys">6</div>
 			</div>
 			<div class="row">
-				<div class="keys">1</div>
-				<div class="keys">2</div>
-				<div class="keys">3</div>
+				<div id="one_key" class="keys num_keys">1</div>
+				<div id="two_key" class="keys num_keys">2</div>
+				<div id="three_key" class="keys num_keys">3</div>
 			</div>
 			<div class="row">
-				<div class="keys">+/-</div>
-				<div class="keys">0</div>
-				<div class="keys">.</div>
+				<div id="sign_key" class="keys"> +/- </div>
+				<div id="zero_key" class="keys num_keys">0</div>
+				<div id="period_key" class="keys"> . </div>
 			</div>
 			<div class="row">
-				<div class="keys operators">/</div>
-				<div class="keys operators">-</div>
-				<div class="keys operators">+</div>
-				<div class="keys operators">x</div>
+				<div id="division_key" class="keys operators">/</div>
+				<div id="minus_key" class="keys operators">-</div>
+				<div id="plus_key" class="keys operators">+</div>
+				<div id="multiply_key" class="keys operators">x</div>
 			</div>
 			<div class="row">
-				<div class="keys answer_keys"> << </div>
-				<div class="keys answer_keys equal_key"> = </div>
+				<div id="delete_key" class="keys answer_keys"> << </div>
+				<div id="AC_key" class="keys answer_keys"> AC </div>
+				<div id="equal_key" class="keys answer_keys"> = </div>
 			</div>
 		</div>
 	</div>
