@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Calculator</title>
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"> -->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
   	integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
   	crossorigin="anonymous"></script>
@@ -9,45 +10,40 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<div id="calculator">
-		<div id="upper">
-			<div class="display_row">
-				<div id="total">
-					<div id="display_total"></div>
-				</div>
+	<div class="calculator">
+		<div class="calc--upper">
+			<div class="calc--display">
+				<div class="calc--display-content"></div>
 			</div>
 		</div>
-		<div id="numpad">
-			<div class="row">
-				<div id="seven_key" class="keys num_keys">7</div>
-				<div id="eight_key" class="keys num_keys">8</div>
-				<div id="nine_key" class="keys num_keys">9</div>
+		<div class="calc--numpad">
+			<div class="row row-keys">
+				<div class="keys col-4 keys--ac"> AC </div>
+				<div class="keys col-4 keys--delete"><<</div>
+				<div class="keys col-4 keys--operators">/</div>
 			</div>
-			<div class="row">
-				<div id="four_key" class="keys num_keys">4</div>
-				<div id="five_key" class="keys num_keys">5</div>
-				<div id="six_key" class="keys num_keys">6</div>
+			<div class="row row-keys">
+				<div class="keys keys--num">7</div>
+				<div class="keys keys--num">8</div>
+				<div class="keys keys--num">9</div>
+				<div class="keys keys--operators">x</div>
 			</div>
-			<div class="row">
-				<div id="one_key" class="keys num_keys">1</div>
-				<div id="two_key" class="keys num_keys">2</div>
-				<div id="three_key" class="keys num_keys">3</div>
+			<div class="row row-keys">
+				<div class="keys keys--num">4</div>
+				<div class="keys keys--num">5</div>
+				<div class="keys keys--num">6</div>
+				<div class="keys keys--operators">-</div>
 			</div>
-			<div class="row">
-				<div id="sign_key" class="keys"> +/- </div>
-				<div id="zero_key" class="keys num_keys">0</div>
-				<div id="period_key" class="keys"> . </div>
+			<div class="row row-keys">
+				<div class="keys keys--num">1</div>
+				<div class="keys keys--num">2</div>
+				<div class="keys keys--num">3</div>
+				<div class="keys keys--operators">+</div>
 			</div>
-			<div class="row">
-				<div id="division_key" class="keys operators">/</div>
-				<div id="minus_key" class="keys operators">-</div>
-				<div id="plus_key" class="keys operators">+</div>
-				<div id="multiply_key" class="keys operators">x</div>
-			</div>
-			<div class="row">
-				<div id="delete_key" class="keys answer_keys"> << </div>
-				<div id="AC_key" class="keys answer_keys"> AC </div>
-				<div id="equal_key" class="keys answer_keys"> = </div>
+			<div class="row row-keys">
+				<div class="keys keys--zero">0</div>
+				<div class="keys keys--period">.</div>
+				<div class="keys keys--equal">=</div>
 			</div>
 		</div>
 	</div>
